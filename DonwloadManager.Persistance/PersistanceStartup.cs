@@ -10,7 +10,7 @@ namespace DonwloadManager.Persistance
     {
         public static void AddApplicationPersistanceLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<FirebaseSettings>(configuration.GetSection(nameof(FirebaseSettings));
+            services.Configure<FirebaseSettings>(configuration.GetSection(nameof(FirebaseSettings)));
 
             services.AddTransient<IHistoryRepository, FirebaseDbClient>();
             services.AddTransient<IHistoryRepository, LocalHistoryStorage>();

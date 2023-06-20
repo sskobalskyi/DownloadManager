@@ -1,6 +1,5 @@
 ﻿using DownloadManager.Contracts.Requests;
 using DownloadManager.Services.Interfaces;
-using DownloadManger.Core.Entities;
 
 namespace DownloadManager.Services.Services
 {

@@ -46,7 +46,7 @@ namespace DownloadManager.Services.Managers
             {
                 var throttledStream = new ThrottledStream(_httpClient.GetStreamAsync(model.Url ?? "").Result, configurationManager.Value.SlowDownloadSpeed);
 
-                using (var fs = new FileStream($"D:/pet/DownloadManager/downloads/{model.Filename}", FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                using (var fs = new FileStream($"D:/pet/DownloadManager/downloads/{model.Filename}", FileMode.CreateNew, FileAccess.Write, FileShare.Read))
                 {
                     await throttledStream.CopyToAsync(fs);
 
@@ -60,7 +60,7 @@ namespace DownloadManager.Services.Managers
                     };
                 }
             }
-            catch (Exception e)
+            catch
             {
                 return new Download()
                 {
@@ -69,7 +69,7 @@ namespace DownloadManager.Services.Managers
                     WhenAdded = DateTime.Now
                 };
 
-                throw e;
+                throw;
             }
         }
     }
