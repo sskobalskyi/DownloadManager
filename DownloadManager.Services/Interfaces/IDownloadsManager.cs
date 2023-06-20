@@ -1,11 +1,9 @@
-﻿using DownloadManager.Contracts.Models;
+﻿using DownloadManager.Contracts.Requests;
 
 namespace DownloadManager.Services.Interfaces
 {
     public interface IDownloadsManager
     {
-        public void AddToQueue(DownloadModel stream, CancellationToken cancellationToken);
-        public void StopDownload();
-        public void PauseDownload();
+        public void InitiateDownloading(List<AddDownloadRequest> models);
     }
 }

@@ -1,7 +1,6 @@
-﻿using DownloadManager.Contracts.Enums;
-using DownloadManager.Contracts.Models;
-using DownloadManager.Contracts.Requests;
+﻿using DownloadManager.Contracts.Requests;
 using DownloadManager.Services.Interfaces;
+using DownloadManger.Core.Entities;
 
 namespace DownloadManager.Services.Services
 {
@@ -9,43 +8,13 @@ namespace DownloadManager.Services.Services
     {
         private readonly IDownloadsManager _downloadManager;
 
-        public DownloadService(HttpClient httpClient, IDownloadsManager downloadManager)
+        public DownloadService(IDownloadsManager downloadManager)
         {
             _downloadManager = downloadManager;
         }
-        public DownloadModel AddDownload(AddDownloadRequest request)
+        public void AddDownload(List<AddDownloadRequest> requests)
         {
-            var downloadModel = new DownloadModel
-            {
-                DownloadSpeed = DownloadSpeed.Slow,
-                DownloadStatus = DownloadStatus.Active,
-                File = new FileModel()
-                {
-                    FileName = request.FileName,
-                    Path = request.Uri
-                },
-                Url = request.Url
-            };
-
-            _downloadManager.AddToQueue(downloadModel, request.cancellationToken);
-
-            Thread.Sleep(500);
-
-            return downloadModel;
-        }
-        public Task<DownloadModel> PauseDownload()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DownloadModel> RemoveDownload()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DownloadModel> ResumeDownload()
-        {
-            throw new NotImplementedException();
+            _downloadManager.InitiateDownloading(requests);
         }
     }
 }

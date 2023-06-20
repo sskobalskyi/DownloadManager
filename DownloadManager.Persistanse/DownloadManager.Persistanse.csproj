@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DownloadManger.Core\DownloadManger.Core.csproj" />
+    <Folder Include="Firebase\" />
+    <Folder Include="LocalStorage\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <PackageReference Include="FireSharp" Version="2.0.4" />
   </ItemGroup>
 
 </Project>

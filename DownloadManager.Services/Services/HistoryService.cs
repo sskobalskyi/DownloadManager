@@ -1,23 +1,47 @@
-﻿using DownloadManager.Contracts.Models;
+﻿using DonwloadManager.Persistance.Firebase;
+using DonwloadManager.Persistance.LocalStorage;
+using DownloadManager.Services.Enums;
+using DownloadManager.Services.Helpers;
 using DownloadManager.Services.Interfaces;
+using DownloadManger.Core.Entities;
+using DownloadManger.Core.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace DownloadManager.Services.Services
 {
     internal sealed class HistoryService : IHistoryService
     {
-        public Task<DownloadModel> AddToHistoty()
+        private readonly IHistoryRepository _repository;
+
+        public HistoryService(IEnumerable<IHistoryRepository> repositories, IOptions<StorageSettings> configurationManager)
         {
-           return default (Task<DownloadModel>);
+            var preferedStorage = configurationManager.Value.PreferedStorage;
+
+            _repository = ResolveService(repositories, preferedStorage);
         }
 
-        public Task<DownloadModel> AddToHistoty(DownloadModel model)
+        public Task<bool> AddToHistoty(Download model)
         {
-            return default(Task<DownloadModel>);
+            return _repository.SaveToHistory(model);
         }
 
-        public Task<List<DownloadModel>> GetDownLoads()
+        public Task<List<Download>> GetDownLoads()
         {
-            return default (Task<List<DownloadModel>>);
+            return _repository.GetDonwloadsAsync();
+        }
+
+        private IHistoryRepository ResolveService(IEnumerable<IHistoryRepository> repositories, string preferedStorage)
+        {
+            if (preferedStorage == Storage.Firebase.ToString().ToLower())
+            {
+                return repositories.SingleOrDefault(s => s.GetType() == typeof(FirebaseDbClient));
+            }
+            else if(preferedStorage == Storage.LocalStorage.ToString().ToLower())
+            {
+                return repositories.SingleOrDefault(s => s.GetType() == typeof(LocalHistoryStorage));
+            }
+
+            return repositories.FirstOrDefault();
         }
     }
 }

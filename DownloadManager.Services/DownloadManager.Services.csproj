@@ -8,6 +8,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DonwloadManager.Contracts\DownloadManager.Contracts.csproj" />
+		<ProjectReference Include="..\DonwloadManager.Persistance\DonwloadManager.Persistance.csproj" />
+		<ProjectReference Include="..\DownloadManger.Core\DownloadManger.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />

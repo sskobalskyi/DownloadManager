@@ -1,3 +1,4 @@
+using DonwloadManager.Persistance;
 using DownloadManager.Presentation.Modules;
 using DownloadManager.Services;
 
@@ -8,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddServices();
+builder.Services.AddApplicationPersistanceLayer();
+builder.Services.AddApplicationServiceLayer(builder.Configuration);
 
 var app = builder.Build();
 

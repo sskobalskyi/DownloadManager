@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DownloadManager.Services.Interfaces;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace DownloadManager.Presentation.Modules
@@ -7,12 +9,9 @@ namespace DownloadManager.Presentation.Modules
     {
         public static void AddHistoryModule(this IEndpointRouteBuilder app)
         {
-            app.MapPost("/getActiveDownloads", () =>
+            app.MapGet("/getDownloadHistory", ([FromServices] IHistoryService downloadService) =>
             {
-            }).WithName("/getActiveDownloads");
-
-            app.MapPost("/getDownloadHistory", () =>
-            {
+                return downloadService.GetDownLoads();
             }).WithName("/getgetDownloadHistory");
         }
     }
