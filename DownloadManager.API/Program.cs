@@ -1,4 +1,4 @@
-using DonwloadManager.Persistance;
+using DownloadManager.Persistance;
 using DownloadManager.Presentation.Middleware;
 using DownloadManager.Presentation.Modules;
 using DownloadManager.Services;

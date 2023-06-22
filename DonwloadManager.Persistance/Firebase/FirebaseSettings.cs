@@ -1,4 +1,4 @@
-﻿namespace DonwloadManager.Persistance.Firebase
+﻿namespace DownloadManager.Persistance.Firebase
 {
     public class FirebaseSettings
     {

@@ -12,14 +12,15 @@ namespace DownloadManager.Services
         public static void AddApplicationServiceLayer(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddHttpClient<DownloadsManager>();
+            services.AddScoped<ISettingsService, SettingsService>();
 
             services.Configure<DownloadSettings>(configuration.GetSection(nameof(DownloadSettings)));
             services.Configure<StorageSettings>(configuration.GetSection(nameof(StorageSettings)));
-
+            
             services.AddScoped<IHistoryService, HistoryService>();
             services.AddScoped<IDownloadService, DownloadService>();
             services.AddScoped<IDownloadsManager, DownloadsManager>();
+            services.AddHttpClient<IDownloadsManager, DownloadsManager>();
         }
     }
 }

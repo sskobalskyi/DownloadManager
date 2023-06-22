@@ -8,6 +8,5 @@ namespace DownloadManager.Contracts.Requests
         public string? Filename { get; set; }
         public DownloadSpeed? DownloadSpeed { get; set; }
         public DownloadStatus? DownloadStatus { get; set; }
-        public CancellationToken cancellationToken { get; set; }
     }
 }

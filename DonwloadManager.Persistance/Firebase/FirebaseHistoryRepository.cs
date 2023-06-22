@@ -1,28 +1,29 @@
 ﻿using DownloadManger.Core.Entities;
 using DownloadManger.Core.Repositories;
-using FireSharp;
 using FireSharp.Config;
+using FireSharp;
 using FireSharp.Interfaces;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DonwloadManager.Persistance.Firebase
+namespace DownloadManager.Persistance.Firebase
 {
-    public sealed class FirebaseDbClient : IHistoryRepository
+    public sealed class FirebaseHistoryRepository : IHistoryRepository
     {
         private readonly IFirebaseClient _client;
-        public FirebaseDbClient(IOptions<FirebaseSettings> settings)
+
+        public FirebaseHistoryRepository(IOptions<FirebaseSettings> settings)
         {
             _client = new FirebaseClient(new FirebaseConfig()
             {
-                BasePath = settings.Value.BasePath,
-                AuthSecret = settings.Value.AuthSecret,
+                BasePath = "https://downloadmanager-c2bc6-default-rtdb.firebaseio.com",
+                AuthSecret = "LYkF9txAUzN3kOwDb3OzgMaSVyF5wlaV9KU2mdoL",
             });
         }
 
-        public async Task<List<Download>> GetDonwloadsAsync()
+        public async Task<List<Download>> GetDonwloads()
         {
             var response = await _client.GetAsync("downloads/");
 
@@ -31,6 +32,11 @@ namespace DonwloadManager.Persistance.Firebase
                 var dictionary = response.ResultAs<Dictionary<string, Download>>();
 
                 var result = new List<Download>();
+
+                if(dictionary == null)
+                {
+                    return result;
+                }
                 
                 foreach (var item in dictionary)
                 {

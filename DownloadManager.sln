@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DownloadManager.Contracts",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DownloadManager.Presentation", "DownloadManager.Presentation\DownloadManager.Presentation.csproj", "{94A5CB3E-CD41-4D90-AE1E-9F312620BA64}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DonwloadManager.Persistance", "DonwloadManager.Persistance\DonwloadManager.Persistance.csproj", "{B18B20EE-80AF-44BA-9E5E-9AAD59C2EBDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DownloadManager.Persistance", "DonwloadManager.Persistance\DownloadManager.Persistance.csproj", "{B18B20EE-80AF-44BA-9E5E-9AAD59C2EBDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

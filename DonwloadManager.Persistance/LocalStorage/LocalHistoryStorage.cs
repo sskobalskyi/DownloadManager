@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DonwloadManager.Persistance.LocalStorage
+namespace DownloadManager.Persistance.LocalStorage
 {
     public sealed class LocalHistoryStorage : IHistoryRepository
     {
@@ -17,7 +17,7 @@ namespace DonwloadManager.Persistance.LocalStorage
             _localStoragePath = configuration.GetValue<string>("localStoragePath");
         }
 
-        public async Task<List<Download>> GetDonwloadsAsync()
+        public async Task<List<Download>> GetDonwloads()
         {
             string readContents;
 

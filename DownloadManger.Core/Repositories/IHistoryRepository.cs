@@ -4,7 +4,7 @@ namespace DownloadManger.Core.Repositories
 {
     public interface IHistoryRepository
     {
-        Task<List<Download>> GetDonwloadsAsync();
+        Task<List<Download>> GetDonwloads();
         Task<bool> SaveToHistory(Download data);
     }
 }

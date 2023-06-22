@@ -1,47 +1,52 @@
-﻿using DonwloadManager.Persistance.Firebase;
-using DonwloadManager.Persistance.LocalStorage;
+﻿using DownloadManager.Persistance.Firebase;
+using DownloadManager.Persistance.LocalStorage;
 using DownloadManager.Services.Enums;
-using DownloadManager.Services.Helpers;
 using DownloadManager.Services.Interfaces;
 using DownloadManger.Core.Entities;
 using DownloadManger.Core.Repositories;
-using Microsoft.Extensions.Options;
 
 namespace DownloadManager.Services.Services
 {
     internal sealed class HistoryService : IHistoryService
     {
-        private readonly IHistoryRepository _repository;
+        private readonly IEnumerable<IHistoryRepository> _repositories;
+        private readonly ISettingsService _settingsService;
 
-        public HistoryService(IEnumerable<IHistoryRepository> repositories, IOptions<StorageSettings> configurationManager)
+        public HistoryService(IEnumerable<IHistoryRepository> repositories, ISettingsService settingsService)
         {
-            var preferedStorage = configurationManager.Value.PreferedStorage;
-
-            _repository = ResolveService(repositories, preferedStorage);
+            _repositories = repositories;
+            _settingsService = settingsService;
         }
 
-        public Task<bool> AddToHistoty(Download model)
+        public async Task<bool> AddToHistoty(Download model)
         {
-            return _repository.SaveToHistory(model);
+            var _repository = await ResolveService();
+            
+            return await _repository.SaveToHistory(model);
         }
 
-        public Task<List<Download>> GetDownLoads()
+        public async Task<List<Download>> GetDownLoads()
         {
-            return _repository.GetDonwloadsAsync();
+            var _repository = await ResolveService();
+
+            return await _repository.GetDonwloads();
         }
 
-        private IHistoryRepository ResolveService(IEnumerable<IHistoryRepository> repositories, string preferedStorage)
+        private async Task<IHistoryRepository> ResolveService()
         {
-            if (preferedStorage == Storage.Firebase.ToString().ToLower())
+            var preferedStorageSetting = await _settingsService.GetPreferedStorage();
+
+            var preferedStorage = (Storage)preferedStorageSetting;
+
+            switch (preferedStorage)
             {
-                return repositories.SingleOrDefault(s => s.GetType() == typeof(FirebaseDbClient));
+                case Storage.Firebase:
+                    return _repositories.SingleOrDefault(s => s.GetType() == typeof(FirebaseHistoryRepository));
+                case Storage.LocalStorage:
+                    return _repositories.SingleOrDefault(s => s.GetType() == typeof(LocalHistoryStorage));
+                default:
+                    return _repositories.SingleOrDefault(s => s.GetType() == typeof(FirebaseHistoryRepository));
             }
-            else if(preferedStorage == Storage.LocalStorage.ToString().ToLower())
-            {
-                return repositories.SingleOrDefault(s => s.GetType() == typeof(LocalHistoryStorage));
-            }
-
-            return repositories.FirstOrDefault();
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public enum Storage
     {
-        Firebase,
-        LocalStorage
+        Firebase = 0,
+        LocalStorage = 1
     }
 }
