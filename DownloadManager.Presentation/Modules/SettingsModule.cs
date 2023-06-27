@@ -22,6 +22,20 @@ namespace DownloadManager.Presentation.Modules
 
                 return res;
             }).WithName("setPreferedHistoryStorage");
+
+            app.MapGet("/getMaximumSimultaneous", async ([FromServices] ISettingsService settingsService) =>
+            {
+                var res = await settingsService.GetMaxSimultaneousDownloads();
+
+                return res;
+            }).WithName("getMaximumSimultaneous");
+
+            app.MapGet("/getPreferedHistoryStorage", async ([FromServices] ISettingsService settingsService) =>
+            {
+                var res = await settingsService.GetPreferedStorage();
+
+                return res;
+            }).WithName("getPreferedHistoryStorage");
         }
     }
 }

@@ -75,10 +75,10 @@ namespace DownloadManager.Services.Managers
                 downloadSpeed = _options.Value.SlowDownloadSpeed;
             }
 
-            var throttledStream = new ThrottledStream(Client.GetStreamAsync(model.Url ?? "").Result, downloadSpeed);
-            
             try
             {
+                var throttledStream = new ThrottledStream(Client.GetStreamAsync(model.Url ?? "").Result, downloadSpeed);
+
                 using (var fs = new FileStream($"D:/pet/DownloadManager/downloads/{model.Filename}", FileMode.CreateNew, FileAccess.Write, FileShare.Read))
                 {
                     await throttledStream.CopyToAsync(fs);
